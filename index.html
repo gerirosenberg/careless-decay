@@ -3,22 +3,83 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
-		<title>Geri's website</title>
+		<title>Careless Decay</title>
 
+		<div class="header-top clearfix">
+	    <h1 class="l-left"><a href="#firstSection">Your Logo</a></h1>
+	    <a class="l-right toggle-menu" href="#">
+	      <i></i>
+	      <i></i>
+	      <i></i>
+	    </a>
+	  </div>
+
+	  <nav class="hide">
+	    <ul id="menu">
+	      <li data-menuanchor="firstSection">
+	        <a href="#firstSection" title="First Section">Introduction</a>
+	      </li>
+	      <li data-menuanchor="secondSection">
+	        <a href="#secondSection" title="Second Section">What are Dental Deserts?</a>
+	      </li>
+	      <li data-menuanchor="thirdSection">
+	        <a href="#thirdSection" title="Second Section">Lack of Access to Care</a>
+	      </li>
+	      <li data-menuanchor="fourthSection">
+	        <a href="#fourthSection" title="Fourth Section">Solutions?</a>
+	      </li>
+	      <li data-menuanchor="fourthSection">
+	        <a href="#fourthSection" title="First Slide">Sources</a>
+	      </li>
+	    </ul>
+	  </nav>
 		<!--put your external stylesheet links here-->
+		<link href="lib/leaflet/leaflet.css" rel="stylesheet">
+		<link href="lib/bootstrap/bootstrap.css" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css">
 		<!--[if IE<9]>
 			<link rel="stylesheet" href="css/style.ie.css">
 		<![endif]-->
 	</head>
 
-	<body>
-		<!--put your initial page content here-->
-			
+	<div id="fullpage">
+	  <section class="vertical-scrolling">
+	    <h2>Introduction</h2>
+	    <h3>Geri, Will, and Matt</h3>
+	    <div class="scroll-icon">
+	      <p>Jump into the last slide</p>
+	      <a href="#fourthSection/1" class="icon-up-open-big"></a>
+	    </div>
+	  </section>
+	  <section class="vertical-scrolling">
+	    <h2>What are Dental Desserts</h2>
+	    <h3>This is the second section</h3>
+	  </section>
+	  <section class="vertical-scrolling">
+	    <h2>Solutions?</h2>
+	    <h3>This is the third section</h3>
+	  </section>
+	  <section class="vertical-scrolling">
+	    <h2>Sources</h2>
+	    <h3>This is the fourth section</h3>
+	  </section>
+	  <section class="vertical-scrolling">
+	    <div class="horizontal-scrolling">
+	      <h2>fullPage.js</h2>
+	      <h3>This is the fourth section and it contains the first slide (actually section == first slide)</h3>
+	    </div>
+	  </section>
+	</div>
+
 		<!--you can also use this space for internal scripts or stylesheets;
 		place these within <script> or <style> tags-->
 
-		<!--put your external script links here-->
+		<!--put your extern`al script links here-->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'></script>
+	  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.min.js'></script>
+    <script src="lib/leaflet/leaflet-src.js" type="text/javascript"></script>
+    <script src="lib/leaflet/leaflet.js" type="text/javascript"></script>
+    <script src="lib/bootstrap/bootstrap.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>

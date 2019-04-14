@@ -242,7 +242,9 @@ nav li a {
 }
 
 nav li:nth-child(odd) a,
-
+body.fp-viewing-fourthSection-1 #menu li:nth-child(5) a {
+	background: #962D3E;
+}
 
 nav li:nth-child(even) a {
 	background: #aa3346;
@@ -257,7 +259,9 @@ nav li:nth-child(even) a:hover {
 }
 
 nav li.active a,
-
+body.fp-viewing-fourthSection-1 #menu li:last-child a {
+  background: #453659;
+}
 
 
 
@@ -270,7 +274,7 @@ section {
 }
 
 h2 {
-	text-transform: lowercase;
+	text-transform: none;
 	font-size: 4em;
 	margin-bottom: 20px;
 }

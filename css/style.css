@@ -39,7 +39,7 @@
   display: block;
   -webkit-transform: rotateX(180deg);
           transform: rotateX(180deg);
-  color: black;
+  color: white;
   -webkit-transition: color .3s;
           transition: color .3s;
 }
@@ -280,6 +280,7 @@ h2 {
 }
 
 h3 {
+  color: white
 	font-weight: 300;
 	font-size: 2.8em;
 }

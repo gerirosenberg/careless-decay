@@ -61,32 +61,32 @@ $('#fullpage').fullpage({
   }
 });
 
-// Basic counties map
-var mapboxAccessToken = {pk.eyJ1IjoiZ2VyaXJvc2VuYmVyZyIsImEiOiJjanVvazRlYjczNDcwNDRwM29icjhpbjJlIn0.8_jND_wBkaMl7jbfn79dOg}
-var map = L.map('map').setView([37.8, -96], 4);
-
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
-  id: 'mapbox.light',
-  attribution: ...
-}).addTo(map);
-
-L.geoJson(counties).addTo(map);
-
-// Import GeoJSON data
-function getData(map) {
-  // load the data
-  $.ajax("./data/counties.geojson",
-    {
-      dataType: "geojson",
-      success: function(response) {
-
-        // create an attributes array
-        var attributes = processData(response);
-
-        // call function to create choropleth
-
-        // build initial legend
-
-      }
-    });
-};
+// // Basic counties map
+// var mapboxAccessToken = {pk.eyJ1IjoiZ2VyaXJvc2VuYmVyZyIsImEiOiJjanVvazRlYjczNDcwNDRwM29icjhpbjJlIn0.8_jND_wBkaMl7jbfn79dOg}
+// var map = L.map('map').setView([37.8, -96], 4);
+//
+// L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+//   id: 'mapbox.light',
+//   attribution: ...
+// }).addTo(map);
+//
+// L.geoJson(counties).addTo(map);
+//
+// // Import GeoJSON data
+// function getData(map) {
+//   // load the data
+//   $.ajax("./data/counties.geojson",
+//     {
+//       dataType: "geojson",
+//       success: function(response) {
+//
+//         // create an attributes array
+//         var attributes = processData(response);
+//
+//         // call function to create choropleth
+//
+//         // build initial legend
+//
+//       }
+//     });
+// };

@@ -5,6 +5,15 @@
 		<meta name="viewport" content="width=device-width">
 		<link rel="shortcut icon" type="image/x-icon" href="img/tooth.png">
 		<title>Careless Decay</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+		crossorigin=""/>
+		<!-- Make sure you put this AFTER Leaflet's CSS -->
+		<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+		integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+		crossorigin=""></script>
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 
 		<div class="header-top clearfix">
 	    <h1 class="l-left"><a href="#firstSection">Dental Deserts</a></h1>
@@ -34,9 +43,6 @@
 		<!--put your external stylesheet links here-->
 		<link href="lib/leaflet/leaflet.css" rel="stylesheet">
 		<link href="lib/bootstrap/bootstrap.css" rel="stylesheet">
-		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
-		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' </style>
-
 		<link rel="stylesheet" href="css/style.css">
 		<!--[if IE<9]>
 			<link rel="stylesheet" href="css/style.ie.css">
@@ -56,9 +62,8 @@
 	    <h2>What are Dental Desserts</h2>
 	    <h3>This is the second section</h3>
 	  </section>
-	  <section class="vertical-scrolling">
+	  <section class="vertical-scrolling" id="section3">
 	    <h2>Lack of Access to Care</h2>
-	    <h3>This is where the map will be</h3>
 	    <div id="mapid"></div>
 	  </section>
 	  <section class="vertical-scrolling">

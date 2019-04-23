@@ -79,7 +79,7 @@ function createMap(){
 
 };
 
-$(document).ready(createMap);
-
+// $(document).ready(createMap);
+createMap();
 // add county data
 L.geoJson(countyHSPA).addTo(map);

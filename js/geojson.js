@@ -1,5 +1,23 @@
 /* Map of GeoJSON data from counties.geojson */
 
+// Import GeoJSON data
+function getData(map) {
+  // load the data
+  $.ajax("./data/countyHSPA.geojson",
+    {
+      dataType: "geojson",
+      success: function(response) {
+
+        // create an attributes array
+        var attributes = processData(response);
+
+        // call function to create choropleth
+
+        // build initial legend
+
+      }
+    });
+
 // function to instantiate the Leaflet map
 function createMap(){
     // create the map
@@ -17,7 +35,9 @@ function createMap(){
     }).addTo(map);
 
     // add county data
-	L.geoJson(countyHSPA).addTo(map);
+	// L.geoJson(countyHSPA).addTo(map);
+
+	getData(map);
 
 };
 

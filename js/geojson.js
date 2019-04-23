@@ -16,9 +16,9 @@ function createMap(){
         accessToken: 'pk.eyJ1IjoibWF0dHJvZGUiLCJhIjoiY2pzdWdsNnJvMDJuODQ5b2VydTBuYWF4dCJ9.4RfNabbj_uH0TcKSACZ_Lw'
     }).addTo(map);
 
-};
+    // add county data
+	L.geoJson(countyHSPA).addTo(map);
 
-// add county data
-L.geoJson(countyHSPA).addTo(map);
+};
 
 $(document).ready(createMap);

@@ -73,7 +73,7 @@ function createMap(){
     map.scrollWheelZoom.disable();
 
 	// add data layer to map
-	L.geoJson(countyHSPA).addTo(map);
+	L.geoJson(countyHSPA, {style: choropleth}).addTo(map);
 
     // add OSM base tilelayer
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
@@ -83,6 +83,27 @@ function createMap(){
         accessToken: 'pk.eyJ1IjoibWF0dHJvZGUiLCJhIjoiY2pzdWdsNnJvMDJuODQ5b2VydTBuYWF4dCJ9.4RfNabbj_uH0TcKSACZ_Lw'
     }).addTo(map);
 
+};
+
+// get colors for choropleth
+function getColor(d) {
+  return d > 80 ? '#993404' :
+         d > 60 ? '#d95f0e' :
+         d > 40 ? '#fe9929' :
+         d > 20 ? '#fed98e' :
+                  '#ffffd4' ;
+
+};
+
+// assign colors to data
+function choropleth(feature) {
+  return {
+    fillColor: getColor(feature.properties.weightedScore),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    fillOpacity: 0.7
+  };
 };
 
 $(document).ready(createMap);

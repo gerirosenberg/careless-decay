@@ -69,6 +69,9 @@ function createMap(){
         zoom: 4
     });
 
+    // turn off scrollwheel zoom
+    map.scrollWheelZoom.disable();
+
 	// add data layer to map
 	L.geoJson(countyHSPA).addTo(map);
 

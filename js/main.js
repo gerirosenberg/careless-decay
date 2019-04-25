@@ -91,30 +91,9 @@ function choropleth(feature) {
   };
 };
 
-// ignore state layer on mouseover
-function passThruEvents(g) {
-  g.on('mouvemove.passThru', passThru)
-   .on('mousedown.passThru', passThru)
-  ;
-
-  function passThru(d) {
-    var e = d3.event;
-
-    var prev = this.style.pointerEvents;
-    this.style.pointerEvents = 'none';
-
-    var e1 = document.elementFromPoint(d3.event.x, d3.event.y);
-    var e2 = document.createEvent('MouseEvent');
-    e2.initMouseEvent(e.type,e.bubbles,e.cancelable,e.view, e.detail,e.screenX,e.screenY,e.clientX,e.clientY,e.ctrlKey,e.altKey,e.shiftKey,e.metaKey,e.button,e.relatedTarget);
-    e1.dispatchEvent(e2);
-
-    this.style.pointerEvents = prev;
-  };
-};
-
 // event listener to highlight
 function highlightFeature(e) {
-  var layer = passThruEvents(e.target);
+  var layer = e.target;
 
   layer.setStyle({
     weight: 1,
@@ -130,7 +109,7 @@ function highlightFeature(e) {
 
 // event listener to unhighlight
 function resetHighlight(e) {
-  var layer = passThruEvents(e.target);
+  var layer = e.target;
 
   layer.setStyle({
     weight: 0.5,
@@ -205,7 +184,7 @@ geojson = L.geoJson(countyHSPA, {
   onEachFeature: onEachFeature
 }).addTo(map);
 
-L.geoJson(statesData, {style: stateOutlines}).addTo(map);
+L.geoJson(statesData, {style: stateOutlines, interactive: false}).addTo(map);
 
 // add OSM base tilelayer
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {

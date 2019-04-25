@@ -64,10 +64,10 @@ $('#fullpage').fullpage({
 
 // get colors for choropleth
 function getColor(d) {
-  return d > 1038 ? '#cc4c02' :
-         d > 551 ? '#fe9929' :
-         d > 239 ? '#fed98e' :
-         d > 67 ? '#ffffd4' :
+  return d > 1000 ? '#cc4c02' :
+         d > 550 ? '#fe9929' :
+         d > 250 ? '#fed98e' :
+         d > 65 ? '#ffffd4' :
                   '#ffffff' ;
 
 };
@@ -172,6 +172,24 @@ var map = L.map('section3', {
     zoom: 4
 });
 
+// create legend
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function(map) {
+  var div = L.DomUtil.create('div', 'info legend'),
+  scores = [0, 65, 250, 550, 1000],
+  labels = [];
+
+  // generate labels and squares for each interval
+  for (var i = 0; i < scores.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor(scores[i] + 1) + '"></i> ' +
+      scores[i] + (scores[i + 1] ? '&ndash;' + scores[i + 1] + '<br>' : '+');
+  }
+
+  return div;
+};
+
 // turn off scrollwheel zoom
 map.scrollWheelZoom.disable();
 
@@ -195,4 +213,5 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/
 }).addTo(map);
 
 info.addTo(map);
+legend.addTo(map);
 

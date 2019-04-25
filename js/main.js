@@ -19,17 +19,18 @@ $('#fullpage').fullpage({
   anchors: ['firstSection', 'secondSection', 'thirdSection', 'fourthSection'],
   menu: '#menu',
   normalScrollElements: 'section3',
+  paddingTop: '70px',
 
   afterLoad: function(anchorLink, index) {
     $header_top.css('background', 'rgba(0, 47, 77, .3)');
     $nav.css('background', 'rgba(0, 47, 77, .25)');
-    if (index == 5) {
+    if (index == 4) {
         $('#fp-nav').hide();
       }
   },
 
   onLeave: function(index, nextIndex, direction) {
-    if(index == 5) {
+    if(index == 4) {
       $('#fp-nav').show();
     }
   },

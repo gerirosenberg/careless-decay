@@ -75,6 +75,7 @@ function createMap(){
 
 	// add data layer to map
 	L.geoJson(countyHSPA, {style: choropleth}).addTo(map);
+  L.geoJson(statesData, {style: stateOutlines}).addTo(map);
 
     // add OSM base tilelayer
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
@@ -88,19 +89,27 @@ function createMap(){
 
 // get colors for choropleth
 function getColor(d) {
-  return d > 1038 ? '#993404' :
-         d > 551 ? '#d95f0e' :
-         d > 239 ? '#fe9929' :
-         d > 67 ? '#fed98e' :
-                  '#ffffd4' ;
+  return d > 1038 ? '#cc4c02' :
+         d > 551 ? '#fe9929' :
+         d > 239 ? '#fed98e' :
+         d > 67 ? '#ffffd4' :
+                  '#ffffff' ;
 
+};
+
+// assign state outline style
+var stateOutlines = {
+  'weight': 2,
+  'opacity': 1,
+  'color': '#fbb4b9',
+  'fillOpacity': 0
 };
 
 // assign colors to data
 function choropleth(feature) {
   return {
     fillColor: getColor(feature.properties.Wscore),
-    weight: 1,
+    weight: 0.5,
     opacity: 1,
     color: 'white',
     fillOpacity: 0.7

@@ -88,10 +88,10 @@ function createMap(){
 
 // get colors for choropleth
 function getColor(d) {
-  return d > 80 ? '#993404' :
-         d > 60 ? '#d95f0e' :
-         d > 40 ? '#fe9929' :
-         d > 20 ? '#fed98e' :
+  return d > 1038 ? '#993404' :
+         d > 551 ? '#d95f0e' :
+         d > 239 ? '#fe9929' :
+         d > 67 ? '#fed98e' :
                   '#ffffd4' ;
 
 };
@@ -99,7 +99,7 @@ function getColor(d) {
 // assign colors to data
 function choropleth(feature) {
   return {
-    fillColor: getColor(feature.properties.weightedScore),
+    fillColor: getColor(feature.properties.Wscore),
     weight: 1,
     opacity: 1,
     color: 'white',

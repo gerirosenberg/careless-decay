@@ -11,7 +11,7 @@ $header_top.find('a').on('click', function() {
 
 // fullpage customization
 $('#fullpage').fullpage({
-  sectionsColor: ['#0d3c87', '#0d3c87', '#0d3c87', '#0d3c87', '#0d3c87'],
+  sectionsColor: ['#d8a146', '#eec561', '#f7e196', '#fbe5c2', '#ffffff'],
   sectionSelector: '.vertical-scrolling',
   navigation: true,
   slidesNavigation: true,
@@ -64,16 +64,17 @@ $('#fullpage').fullpage({
 
 // get colors for choropleth
 function getColor(d) {
-  return d > 1000 ? '#cc4c02' :
-         d > 550 ? '#fe9929' :
-         d > 250 ? '#fed98e' :
-         d > 65 ? '#ffffd4' :
+  return d > 1200 ? '#993404' :
+         d > 575 ? '#d95f0e' :
+         d > 250 ? '#fe9929' :
+         d > 70 ? '#fed98e' :
+         d > 1 ? '#ffffd4' :
                   '#ffffff' ;
 
 };
 
 // assign state outline style
-var stateOutlines = {
+var stateStyle = {
   'weight': 2,
   'opacity': 1,
   'color': '#fbb4b9',
@@ -97,6 +98,7 @@ function highlightFeature(e) {
 
   layer.setStyle({
     weight: 1,
+    opacity: 1,
     color: '#666',
     fillOpacity: 0.7
   });
@@ -113,7 +115,8 @@ function resetHighlight(e) {
 
   layer.setStyle({
     weight: 0.5,
-    color: 'white',
+    opacity: 0.3,
+    color: '#fbb4b9',
     fillOpacity: 0.7
   })
 
@@ -122,11 +125,6 @@ function resetHighlight(e) {
   // update info box
   info.update();
 };
-
-// click listener to zoom to stat
-// function zoomToFeature(e) {
-//   map.fitBounds(e.target.getBounds());
-// };
 
 // add listeners to county data
 function onEachFeature(feature, layer) {
@@ -159,25 +157,133 @@ info.onAdd = function (map) {
 
 // update info box
 info.update = function (props) {
-  this._div.innerHTML = '<h4>HSPA Weighted Score:</h4>' + (props ?
-    '<b>' + props.Wscore + '</b><br />'
+  this._div.innerHTML = '<h4>Dental shortage score:</h4>' + (props ?
+    + props.Wscore + '</b><br />'
     + titleCase(props.NAME) + ' County,<br />'+ titleCase(props.STATE) + '</b><br />'
     + '# of HSPAs: ' + props.HSPACount
     : 'Hover over a county');
 };
 
+// function to join counties and csv
+  function joinData(allCounties, csvData){
+    // loop through csv to assign each set of csv attribute values to geojson tract
+    for (var i=0; i<csvData.length; i++){
+
+      // current county
+      var csvCounty = csvData[i];
+
+      // csv primary key
+      var csvKey = csvCounty.AFFGEOID;
+
+      // loop through geojson tracts to find correct tract
+      for (var a=0; a<allCounties.length; a++){
+
+        // current tract geojson properties
+        var geojsonProps = allCounties[a].properties;
+
+        // geojson primary key
+        var geojsonKey = geojsonProps.AFFGEOID;
+
+        // where primary keys match, transfer csv data to geojson properties object
+        if (geojsonKey === csvKey){
+
+          // assign all attributes and values
+          attrArray.forEach(function(attr){
+
+            // get csv attribute value
+            var val = parseFloat(csvCounty[attr]);
+
+            // assign attribute and value to geojson properties
+            geojsonProps[attr] = val;
+          });
+        };
+
+        // where primary keys match, transfer csv infodata to geojson properties object
+        if (geojsonKey === csvKey){
+
+          // assign all attributes and values
+          infoArray.forEach(function(info){
+
+            // get csv attribute value
+            var val = parseFloat(csvCounty[info]);
+
+            // assign attribute and value to geojson properties
+            geojsonProps[info] = val;
+          });
+
+        };
+      };
+    };
+    return allCounties;
+  }
+
 // create the map
 var map = L.map('section3', {
-    center: [37.8, -96],
-    zoom: 4
+  center: mapCenter (),
+  zoom: mapZoom ()
 });
+
+// change map center for mobile
+function mapCenter (){
+  if (window.innerWidth > 600) {return [37.8, -96]}
+  else {return [40, -98]}
+};
+
+//change map zoom level based on screensize
+function mapZoom (){
+  var d = [3, 4]
+  if (window.innerWidth > 600) {return d[1]}
+  else {return d[0]}
+};
+
+// add OSM base tilelayer
+L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 7,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoibWF0dHJvZGUiLCJhIjoiY2pzdWdsNnJvMDJuODQ5b2VydTBuYWF4dCJ9.4RfNabbj_uH0TcKSACZ_Lw'
+}).addTo(map);
+
+//use d3.queue to parallelize asynchronous data loading
+d3.queue()
+  // load csv attributes
+  .defer(d3.csv, "data/poverty_public_health_coverage.csv")
+  // load county data
+  .defer(d3.json, "data/CountyHSPA.geojson")
+  // load state outlines
+  .defer(d3.json, "data/states.geojson")
+  .await(callback);
+
+// add callback function
+function callback(error, csvData, counties, stateOutlines){
+
+  // join csv data to enumeration units
+  allCounties = joinData(counties, csvData);
+
+  // turn off scrollwheel zoom
+  map.scrollWheelZoom.disable();
+
+  // create geojson variable
+  var geojson;
+
+  // add data layers to map
+  geojson = L.geoJson(allCounties, {
+    style: choropleth,
+    onEachFeature: onEachFeature
+  }).addTo(map);
+
+  L.geoJson(stateOutlines, {style: stateStyle, interactive: false}).addTo(map);
+
+  info.addTo(map);
+  legend.addTo(map);
+};
 
 // create legend
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'info legend'),
-  scores = [0, 65, 250, 550, 1000],
+  scores = [0, 1, 70, 250, 575, 1200],
   labels = [];
 
   // generate labels and squares for each interval
@@ -190,28 +296,7 @@ legend.onAdd = function(map) {
   return div;
 };
 
-// turn off scrollwheel zoom
-map.scrollWheelZoom.disable();
+// function panMap() {
 
-// create geojson variable
-var geojson;
-
-// add data layers to map
-geojson = L.geoJson(countyHSPA, {
-  style: choropleth,
-  onEachFeature: onEachFeature
-}).addTo(map);
-
-L.geoJson(statesData, {style: stateOutlines, interactive: false}).addTo(map);
-
-// add OSM base tilelayer
-L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 7,
-    id: 'mapbox.streets',
-    accessToken: 'pk.eyJ1IjoibWF0dHJvZGUiLCJhIjoiY2pzdWdsNnJvMDJuODQ5b2VydTBuYWF4dCJ9.4RfNabbj_uH0TcKSACZ_Lw'
-}).addTo(map);
-
-info.addTo(map);
-legend.addTo(map);
+// };
 

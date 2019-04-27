@@ -254,7 +254,7 @@
     var geojson;
 
     // add data layers to map
-    geojson = L.geoJson(allCounties, {
+    geojson = L.geoJson(counties, {
       style: choropleth,
       onEachFeature: onEachFeature
     }).addTo(map);

@@ -198,10 +198,11 @@
 
   // create the map
   var map = L.map('section3', {
-    center: mapCenter (),
+    //center: mapCenter (),
+	zoomDelta: 0.5,
+	zoomSnap: 0,
     zoom: mapZoom ()
   });
-
   // change map center for mobile
   function mapCenter (){
     if (window.innerWidth > 600) {return [37.8, -96]}
@@ -252,7 +253,11 @@
 
     // create geojson variable
     var geojson;
-
+	//Fit Map to a set of bounds
+	map.fitBounds([
+		[11,-182],
+		[72, -65]
+	]); 
     // add data layers to map
     geojson = L.geoJson(counties, {
       style: choropleth,

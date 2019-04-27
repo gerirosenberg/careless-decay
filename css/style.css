@@ -65,7 +65,7 @@ p{
   display: block;
   -webkit-transform: rotateX(180deg);
           transform: rotateX(180deg);
-  color: white;
+  color: black;
   -webkit-transition: color .3s;
           transition: color .3s;
 }

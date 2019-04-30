@@ -16,14 +16,12 @@
   $('#fullpage').fullpage({
     sectionsColor: ['#d8a146', '#eec561', '#f7e196', '#fbe5c2', '#ffffff'],
     sectionSelector: '.vertical-scrolling',
-    verticalCentered: true,
     navigation: true,
     slidesNavigation: true,
     controlArrows: false,
     anchors: ['firstSection', 'secondSection', 'thirdSection', 'fourthSection'],
     menu: '#menu',
     normalScrollElements: 'section3',
-    paddingTop: '70px',
 
     afterLoad: function(anchorLink, index) {
       $header_top.css('background', 'rgba(0, 47, 77, .3)');

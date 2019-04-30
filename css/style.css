@@ -161,8 +161,10 @@ ul, li {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 section {
+
+  padding-left: 25px;
+  padding-right: 25px;
 	text-align: center;
-  padding-top: 70px;
 }
 
 h2 {

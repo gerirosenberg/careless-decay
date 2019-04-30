@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width">
 		<link rel="shortcut icon" type="image/x-icon" href="img/tooth.png">
 		<title>Careless Decay</title>
+		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
 		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
 		crossorigin=""/>
@@ -14,80 +15,71 @@
 		crossorigin=""></script>
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.4/jquery.fullPage.css" />
+
 
 		<!--put your external stylesheet links here-->
 		<link href="lib/leaflet/leaflet.css" rel="stylesheet">
 		<link href="lib/bootstrap/bootstrap.css" rel="stylesheet">
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="//unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
 		<!--[if IE<9]>
 			<link rel="stylesheet" href="css/style.ie.css">
 		<![endif]-->
 	</head>
-
 	<body>
-	<div id="fullpage">
-	    <section id="section1" class="vertical-scrolling">
-	        <h2>Careless Decay</h2>
-	        <h2>Dental Deserts in the United States</h2>
-					<a>By: Geri, Will, and Matt</a>
-
-	        <div class="scroll-icon">
-	        	<p>Jump into the last slide</p>
-	        	<a href="#fourthSection/1" class="icon-up-open-big"></a>
-	      	</div>
-	    </section>
-	    <section id="section2" class="vertical-scrolling">
-	      <h2>What are Dental Deserts</h2>
-	      <div class="flex">
-						<div class="col-md-6 text-center">
-        		<p></p>
-						<h4>
-							A Dental Desert is a Health Professional Shortage Area (HPSA). It is these areas, not an overall shortage of dentists, that cause limited access to care, argues Dr. Robert A. Faiella,
-							American Dental Association president.
-							<br></br>
-						</h4>
-						<h4>
-							HPSAs are made up of three kinds of designations: geographic area, population, or facility.<br></br>
-							<ul>
-						  <li><strong>Geographic area:</strong> Must have a doctor-to-patient ratio of at least 5,000:1*, be a logical area for a practice, and have dental professionals for the area who are too busy, far away, or inaccessible to the majority of the community.</li><br></br>
-							<li><strong>Population:</strong> Residents must reside in an area that would be fit to house a practice, have access barriers, and have a doctor-to-patient-ratio of 4,000:1. (Members of Federally recognized Native American tribes are automatically a designated population HPSA group.)</li><br></br>
-							<li><strong>Facilities:</strong> Must be a federal or state correctional facility that has more than 250 inmates with a doctor-to-patient ratio of 1,500:1 or a public or non-profit dental facility that provides care to an HPSA group but is unable to meet the needs of the community.</li><br></br>
-						  </ul>
-						</h4>
-	      		</div>
-					<div class="col-md-6 text-center">
-          	<p>Young Child Receiving Care</p>
-          	<img class="img-responsive" src="img/boy-check-up-dental-care.jpg">
-      		</div>
-				</div>
-				<h4>The following map provides a Dental Shortage score by county across the United States.</h4>
-	    </section>
-	    <section  id="section3" class="vertical-scrolling">
-	      	<h2>Lack of Access to Care</h2>
-	    </section>
-	    <section id= "section4" class="vertical-scrolling">
-	      	<h2>Solutions</h2>
-	      	<h4>No one has a comprehensive fix for the system just yet. But some states are weighing a way to broaden care without adding dentists, by training a new class of dental-care providers called “dental therapists.” They don’t have as many skills as dentists, but can perform basic procedures.</h4>
-					<h2>Sources</h2>
-					<h4>
-						<ul>
-							<li>https://www.pbs.org/wgbh/frontline/article/do-you-live-in-a-dental-desert-check-our-map/</li>
-							<li>https://www.dentistryiq.com/articles/2013/01/dental-hpsa-and-inadequate-prevention-to-blame.html</li>
-							<li>https://www.cdc.gov/nchs/data/hus/2017/060.pdf</li>
-							<li>https://www.kff.org/other/state-indicator/dental-care-health-professional-shortage-areas-hpsas/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D</li>
-						</ul>
-					</h4>
-
-	    </section>
-	</div>
+		<div id='title'>
+			<h2>Careless Decay</h2>
+			<h4>Dental deserts in the United States</h4>
+		</div>
+		<div id='map'></div>
+		<div class='features'>
+			<section id='intro'>
+				<h2>What are dental deserts?</h2>
+				<h4>
+					A Dental Desert is a Health Professional Shortage Area (HPSA). It is these areas, not an overall shortage of dentists, that cause limited access to care, argues Dr. Robert A. Faiella,
+					American Dental Association president.
+					<br></br>
+				</h4>
+				<h4>
+					HPSAs are made up of three kinds of designations: geographic area, population, or facility.<br></br>
+					<ul>
+				  <li><strong>Geographic area:</strong> Must have a doctor-to-patient ratio of at least 5,000:1*, be a logical area for a practice, and have dental professionals for the area who are too busy, far away, or inaccessible to the majority of the community.</li><br></br>
+					<li><strong>Population:</strong> Residents must reside in an area that would be fit to house a practice, have access barriers, and have a doctor-to-patient-ratio of 4,000:1. (Members of Federally recognized Native American tribes are automatically a designated population HPSA group.)</li><br></br>
+					<li><strong>Facilities:</strong> Must be a federal or state correctional facility that has more than 250 inmates with a doctor-to-patient ratio of 1,500:1 or a public or non-profit dental facility that provides care to an HPSA group but is unable to meet the needs of the community.</li><br></br>
+				  </ul>
+				</h4>
+			</section>
+			<section id='alaska'>
+				<h2>Lack of access to care</h2>
+				<p>Alaska has particularly bad dental deserts. The Alaska map is not zoomable or panable but you can hover. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			</section>
+			<section id='western-us'>
+				<h2>Worst Access Out West</h2>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			</section>
+			<section id='full-extent'>
+				<h2>Solutions</h2>
+				<h4>No one has a comprehensive fix for the system just yet. But some states are weighing a way to broaden care without adding dentists, by training a new class of dental-care providers called “dental therapists.” They don’t have as many skills as dentists, but can perform basic procedures.</h4>
+				<h4>To deal with the shortage, Fort Hays State University President Ed Hammond backs the idea of creating a mid-level dental provider — a person whose training and skills fall somewhere between those of a hygienist and a full-fledged dentist.</h4>
+				<h2>Sources</h2>
+				<h4>
+					<ul style="list-style-type:disc;">
+						<li>https://www.pbs.org/wgbh/frontline/article/do-you-live-in-a-dental-desert-check-our-map/</li>
+						<li>https://www.dentistryiq.com/articles/2013/01/dental-hpsa-and-inadequate-prevention-to-blame.html</li>
+						<li>https://www.cdc.gov/nchs/data/hus/2017/060.pdf</li>
+						<li>https://www.kff.org/other/state-indicator/dental-care-health-professional-shortage-areas-hpsas/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D</li>
+						<li>https://khn.org/news/kansas-mid-level-dental-providers/</li>
+					</ul>
+				</h4>
+			</section>
+		</div>
+<!-- 		<div id="infobox"><p>Here is the box</p></div> -->
 
 		<!--you can also use this space for internal scripts or stylesheets;
 		place these within <script> or <style> tags-->
 
 		<!--put your extern`al script links here-->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'></script>
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js'></script>
 	<script type="text/javascript" src="lib/d3/d3.js"></script>
 	<script type="text/javascript" src="lib/d3-queue/d3-queue.js"></script>
     <script src="lib/leaflet/leaflet-src.js" type="text/javascript"></script>
@@ -97,5 +89,6 @@
 	<script type="text/javascript" src="js/main.js"></script>
 	<script src="https://d3js.org/d3-array.v1.min.js"></script>
 	<script src='https://unpkg.com/simple-statistics@7.0.2/dist/simple-statistics.min.js'></script>
+	<script src="//unpkg.com/leaflet-gesture-handling"></script>
 	</body>
 </html>

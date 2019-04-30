@@ -24,6 +24,12 @@ p{
   color:black;
 }
 
+a {
+  text-transform: none;
+  color: black;
+  font-size: 12px;
+}
+
 .flex {
   display: flex;
   flex-wrap: wrap;

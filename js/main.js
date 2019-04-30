@@ -16,6 +16,7 @@
   $('#fullpage').fullpage({
     sectionsColor: ['#d8a146', '#eec561', '#f7e196', '#fbe5c2', '#ffffff'],
     sectionSelector: '.vertical-scrolling',
+    verticalCentered: true,
     navigation: true,
     slidesNavigation: true,
     controlArrows: false,
@@ -257,7 +258,7 @@
 	map.fitBounds([
 		[11,-182],
 		[72, -65]
-	]); 
+	]);
     // add data layers to map
     geojson = L.geoJson(counties, {
       style: choropleth,

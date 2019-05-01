@@ -1,6 +1,8 @@
 /* Javascript by Geri, Will, and Matt 2019 */
 
-// Debounce to increase speeds
+// explanations in legends
+
+// debounce to increase speeds
 function debounce(func, wait, immediate) {
   var timeout;
   return function() {
@@ -19,6 +21,11 @@ function debounce(func, wait, immediate) {
 var debounceFire = debounce(function() {
 }, 250);
 
+// latlng bounds
+var southWest = L.latLng(16, -181),
+    northEast = L.latLng(74, -64),
+    bounds = L.latLngBounds(southWest, northEast);
+
 // change map center for mobile
 function mapCenter (){
   if (window.innerWidth > 600) {return [37.8, -96]}
@@ -27,15 +34,10 @@ function mapCenter (){
 
 // change map zoom level based on screensize
 function mapZoom (){
-  var d = [3, 3.6]
+  var d = [3, 4]
   if (window.innerWidth > 600) {return d[1]}
   else {return d[0]}
 };
-
-// scroll listener for map
-document.getElementById("map").addEventListener("scroll", function(e) {
-  console.log(e);
-});
 
 // create scroll monitor watchers
 var introWatcher = scrollMonitor.create($('#intro'));
@@ -112,7 +114,6 @@ function onEachFeature(feature, layer) {
   layer.on({
     mouseover: highlightFeature,
     mouseout: resetHighlight,
-    // click: zoomToFeature
   });
 };
 
@@ -126,7 +127,19 @@ function titleCase(string) {
   return splitString.join(' ');
 };
 
-// info box
+// make HSPA single or plural
+function hspaNum (props) {
+  var single = 'HSPA'
+  var plural = 'HSPAs' 
+  if (props.HSPACount == 1) {
+    return single;
+  }
+  else {
+    return plural;
+  }
+}
+
+// make info box
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -138,11 +151,11 @@ info.onAdd = function (map) {
 
 // update info box
 info.update = function (props) {
-  this._div.innerHTML = '<h4>Dental shortage score: </h4>' + '<h2>'
-    + (props ? + props.Wscore + '</h2><br/><h3></h3>'
+  this._div.innerHTML =  '<h2>' + (props ? + props.Wscore
+    + '</h2><h4>Dental shortage score: </h4><br/><h3></h3>'
     + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
-    + '<br/># of HSPAs: ' + props.HSPACount + '<br/>'
-    : '<h4>Hover over a county</h4>');
+    + '<br/>' + props.HSPACount + ' ' + hspaNum(props) + '<br/>'
+    : '<h4>Hover over a county for details</h4>');
 };
 
 // function to join counties and csv
@@ -179,14 +192,15 @@ var map = L.map('map', {
   container: 'map',
   center: mapCenter (),
   zoom: mapZoom (),
-  zoomControl: false,
-  gestureHandling: true
+  gestureHandling: true,
+  maxBounds: bounds
 });
 
 // add OSM base tilelayer
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 7,
+    maxZoom: 8,
+    minZoom: 3,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoibWF0dHJvZGUiLCJhIjoiY2pzdWdsNnJvMDJuODQ5b2VydTBuYWF4dCJ9.4RfNabbj_uH0TcKSACZ_Lw'
 }).addTo(map);
@@ -203,7 +217,7 @@ alaskaWatcher.enterViewport(function () {
 
 westWatcher.enterViewport(function () {
   // changes the scale and zoom to WV
-  map.flyTo(new L.LatLng(38.4,-80.9), 6, {animate: true});
+  map.flyTo(new L.LatLng(38.4,-80.9), 7, {animate: true});
 });
 
 fullMapWatcher.enterViewport(function () {
@@ -211,7 +225,7 @@ fullMapWatcher.enterViewport(function () {
   map.flyTo(new L.LatLng(37.8, -96), mapZoom (), {animate: true});
 });
 
-//use d3.queue to parallelize asynchronous data loading
+// use d3.queue to parallelize asynchronous data loading
 d3.queue()
   // load csv attributes
   .defer(d3.csv, "data/poverty_public_health_coverage.csv")
@@ -252,17 +266,18 @@ function callback(error, csvData, counties, stateOutlines){
   info.addTo(map);
   legend.addTo(map);
 
-  // Enlist debounce
+  // enlist debounce
   window.addEventListener("scroll", debounceFire ());
 };
 
 // create legend
-var legend = L.control({position: 'bottomright'});
+var legend = L.control({position: 'bottomleft'});
 
 legend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'info legend'),
   scores = [0, 1, 70, 250, 575, 1200],
   labels = [];
+  div.innerHTML = '<h4>Dental shortage score</h4>'
 
   // generate labels and squares for each interval
   for (var i = 0; i < scores.length; i++) {
@@ -270,6 +285,9 @@ legend.onAdd = function(map) {
       '<i style="background:' + getColor(scores[i] + 1) + '"></i> ' +
       scores[i] + (scores[i + 1] ? '&ndash;' + scores[i + 1] + '<br>' : '+');
   }
+
+  div.innerHTML += '<div id="best">(Best access)</div>'
+                + '<div id="worst">(Worst access)</div>'
 
   return div;
 };

@@ -1,36 +1,8 @@
 /* Stylesheet by Geri, Will, and Matt 2019 */
 
-@import url(https://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,700);
-
-h1 {
+text {
   text-transform: none;
-  color:white;
-}
-h2 {
-  text-transform: none;
-  color:white;
-}
-h3 {
-  text-transform: none;
-  color:white;
-}
-h4 {
-  text-transform: none;
-  color:white;
-}
-
-p{
-  text-transform: none;
-  color:white;
-}
-
-/* RESET-GENERAL STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-* {
-	margin: 0;
-	padding: 0;
-	font-family: 'Alegreya Sans', Arial, sans-serif;
+  color: white;
 }
 
 html {
@@ -46,14 +18,7 @@ ul, li {
 	list-style-type: decimal;
     list-style-position: outside;
     padding-left: 15px;
-}
-
-/* SECTION STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-section {
-	text-align: center;
-  padding-top: 70px;
+    margin-bottom: 6px;
 }
 
 h2 {
@@ -67,12 +32,11 @@ h2 {
 h3 {
   color: white
 	font-weight: 300;
-	font-size: 2.8em;
+	font-size: 1.6em;
 }
 
 .info {
 	padding: 6px 8px;
-	font-family: 'Lato', sans-serif;
 	background: white;
 	font-size: 14px;
 	background: rgba(255,255,255,0.8);
@@ -96,7 +60,6 @@ h3 {
 
 .info h4 {
 	margin: 0 0 5px;
-	color: #777;
 	float: left;
 	line-height: 16px;
 }
@@ -104,8 +67,9 @@ h3 {
 .legend {
 	line-height: 18px;
 	color: #555;
-	width: 105px;
+	width: 165px;
 	font-size: 12px;
+	bottom: 10px;
 }
 
 .legend i {
@@ -116,9 +80,21 @@ h3 {
 	opacity: 0.7;
 }
 
+#best {
+	right: 12px;
+	top: 27px;
+	position: absolute;
+}
+
+#worst {
+	right: 12px;
+	bottom: 6px;
+	position: absolute;
+}
+
 body {
+	background: #696969;
 	font-family: 'Lato', sans-serif;
-	background: #d8a146;
 	text-align: left;
 	height: 100vh;
 	position: relative;
@@ -131,17 +107,9 @@ body {
 }
 
 body h2 {
-	font-family: 'Lato', sans-serif;
 	font-size: 30px;
 	text-transform: bold;
 	text-align: center;
-}
-
-body h4 {
-	font-family: 'Lato', sans-serif;
-	text-align: left;
-	line-height: 20px;
-	padding-bottom: 10px;
 }
 
 #map {
@@ -153,6 +121,7 @@ body h4 {
 	bottom: 0;
 	z-index: 1;
 	grid-area: map;
+	font-family: 'Lato', sans-serif;
 }
 
 #map h4 {
@@ -170,23 +139,38 @@ section {
 	font-size: 13px;
 	max-width: 600px;
 	opacity: 0.8;
+	color: white;
 }
 
 section h2{
 	text-align: left;
 	margin-bottom: 40px;
+	display: inline-block;
+	margin-top: 70px;
 }
 
-section h3{
-	font-size: 24px;
-	font-weight: bold;
-	color: black;
-	margin-bottom: 40px;
-	margin-top: 40px;
+#intro {
+	margin-top: 60px;
+}
+
+#sources {
+	margin-bottom: 60px;
+}
+
+.bodytext {
 	text-align: left;
+	line-height: 20px;
+	padding-bottom: 2px;
+	font-size: 16px;
+}
+
+.highlight {
+	background-color: #3a3a3a;
+	padding: 1px 3px 1px 3px;
 }
 
 #title {
+	font-family: 'Lato', sans-serif;
 	background: url("../img/xray.jpg");
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -197,6 +181,7 @@ section h3{
 	padding-top: 25vh;
 	z-index: 95;
 	grid-area: header;
+	color: white;
 }
 
 #title img {
@@ -215,13 +200,14 @@ section h3{
 	letter-spacing: 4px;
 }
 
+#title h3 {
+	text-shadow: 1px 1px 1px #000;
+	padding-top: 10px;
+}
+
 #title h4 {
 	text-shadow: 2px 2px 2px #000;
 	font-size: 3em;
 	font-weight: 800;
 	text-align: center;
-}
-
-mark {
-	font-family: 'Lato', sans-serif;
 }

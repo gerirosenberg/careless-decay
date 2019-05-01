@@ -67,7 +67,7 @@ h3 {
 .legend {
 	line-height: 18px;
 	color: #555;
-	width: 165px;
+	width: 185px;
 	font-size: 12px;
 	bottom: 10px;
 }
@@ -210,4 +210,12 @@ section h2{
 	font-size: 3em;
 	font-weight: 800;
 	text-align: center;
+}
+
+.help-btn {
+	right: 0px;
+	top: 0px;
+	padding-left: 3px;
+	position: absolute;
+	color: #696969;
 }

@@ -182,9 +182,7 @@ info.onAdd = function (map) {
 info.update = function (props) {
   this._div.innerHTML =  '<h2>' + (props ? + props.Wscore
     + '</h2><h4>Dental shortage score: </h4><br/><h3></h3>'
-  this._div.innerHTML = '<h4>Dental shortage score: </h4>' + '<h2>'
-    + (props ? + props.Wscore + '</h2><br/><h3></h3>'
-	+ '<h4>Poverty % :</h4>' + props.Percent_be + '</h2><br/><h3></h3>'
+    + '<h4>Poverty % :</h4>' + props.Percent_be + '</h2><br/><h3></h3>'
     + '<h4>Medicaid Reliance % :</h4>' + props.Percent_wi + '</h2><br/><h3></h3>'
     + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
     + '<br/>' + props.HSPACount + ' ' + hspaNum(props) + '<br/>'
@@ -196,7 +194,7 @@ var map = L.map('map', {
   container: 'map',
   center: mapCenter (),
   zoom: mapZoom (),
-  maxBounds: bounds
+  maxBounds: bounds,
   zoomControl: false,
 	//layers: [poverty, dental]
   gestureHandling: true
@@ -281,6 +279,7 @@ legend.onAdd = function(map) {
   scores = [0, 1, 70, 250, 575, 1200],
   labels = [];
   div.innerHTML = '<h4>Dental shortage score</h4>'
+                  + '<button class="btn btn-success btn-md">?</button>'
 
   // generate labels and squares for each interval
   for (var i = 0; i < scores.length; i++) {

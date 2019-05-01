@@ -42,6 +42,34 @@ var introWatcher = scrollMonitor.create($('#intro'));
 var alaskaWatcher = scrollMonitor.create($('#alaska'));
 var westWatcher = scrollMonitor.create($('#wv'));
 var fullMapWatcher = scrollMonitor.create($('#full-extent'));
+//Map Style for Poverty and Healthcare Coverage Layers
+ //Section for Poverty Layer-------------
+//assign state outline style
+  var stateStylePoverty = {
+    'weight': 2,
+    'opacity': 1,
+    'color': '#9D828C',
+    'fillOpacity': 0	  
+  };
+ 
+  //get colors for poverty layer
+  function getColor2(e) {
+	  return d > 28 ? '#993404' :
+           d > 20 ? '#d95f0e' :
+           d > 14 ? '#fe9929' :
+           d > 8 ? '#fed98e' :
+           d > 0 ? '#ffffd4' :
+                    '#ffffff' ;
+  };
+function choroplethPoverty(feature) {
+  return {
+    fillColor: getColor2(feature.properties.Percent_below_poverty_level),
+    weight: 0.5,
+    opacity: 0.3,
+    color: '#fbb4b9',
+    fillOpacity: 0.7
+  };
+};
 
 // get colors for choropleth
 function getColor(d) {
@@ -140,39 +168,12 @@ info.onAdd = function (map) {
 info.update = function (props) {
   this._div.innerHTML = '<h4>Dental shortage score: </h4>' + '<h2>'
     + (props ? + props.Wscore + '</h2><br/><h3></h3>'
+	+ '<h4>Poverty % :</h4>' + props.Percent_be + '</h2><br/><h3></h3>'
+    + '<h4>Medicaid Reliance % :</h4>' + props.Percent_wi + '</h2><br/><h3></h3>'
     + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
     + '<br/># of HSPAs: ' + props.HSPACount + '<br/>'
     : '<h4>Hover over a county</h4>');
 };
-
-// function to join counties and csv
-  function joinData(allCounties, csvData){
-    // loop through csv to assign each set of csv attribute values to geojson tract
-    for (var i = 0; i < csvData.length; i++){
-      // current county
-      var csvCounty = csvData[i];
-      // csv primary key
-      var csvKey = csvCounty.AFFGEOID;
-      // loop through geojson counties to find correct county
-      for (var a=0; a<allCounties.length; a++){
-        // current tract geojson properties
-        var geojsonProps = allCounties[a].properties;
-        // geojson primary key
-        var geojsonKey = geojsonProps.AFFGEOID;
-        // where primary keys match, transfer csv data to geojson properties object
-        if (geojsonKey === csvKey){
-          // assign all attributes and values
-          attrArray.forEach(function(attr){
-            // get csv attribute value
-            var val = parseFloat(csvCounty[attr]);
-            // assign attribute and value to geojson properties
-            geojsonProps[attr] = val;
-          });
-        };
-      };
-    };
-    return allCounties;
-  }
 
 // create the map
 var map = L.map('map', {
@@ -180,6 +181,7 @@ var map = L.map('map', {
   center: mapCenter (),
   zoom: mapZoom (),
   zoomControl: false,
+	//layers: [poverty, dental]
   gestureHandling: true
 });
 
@@ -213,8 +215,8 @@ fullMapWatcher.enterViewport(function () {
 
 //use d3.queue to parallelize asynchronous data loading
 d3.queue()
-  // load csv attributes
-  .defer(d3.csv, "data/poverty_public_health_coverage.csv")
+  // load pphc data
+  .defer(d3.json, "data/pphc.geojson")
   // load county data
   .defer(d3.json, "data/CountyHSPA.geojson")
   // load state outlines
@@ -222,7 +224,7 @@ d3.queue()
   .await(callback);
 
 // add callback function
-function callback(error, csvData, counties, stateOutlines){
+function callback(error, pphcData, counties, stateOutlines){
 
   // psuedo-global variables
   var attrArray = ["Wscore", "Percent_below_poverty_level", "Percent_with_public_health_coverage"];
@@ -231,9 +233,6 @@ function callback(error, csvData, counties, stateOutlines){
   var score = attrArray[0];
   var poverty = attrArray[1];
   var medicaid = attrArray[2];
-
-  // join csv data to enumeration units
-  allCounties = joinData(counties, csvData);
 
   // turn off scrollwheel zoom
   map.scrollWheelZoom.disable();

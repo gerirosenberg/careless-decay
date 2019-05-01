@@ -40,7 +40,7 @@ document.getElementById("map").addEventListener("scroll", function(e) {
 // create scroll monitor watchers
 var introWatcher = scrollMonitor.create($('#intro'));
 var alaskaWatcher = scrollMonitor.create($('#alaska'));
-var westWatcher = scrollMonitor.create($('#western-us'));
+var westWatcher = scrollMonitor.create($('#wv'));
 var fullMapWatcher = scrollMonitor.create($('#full-extent'));
 
 // get colors for choropleth
@@ -138,11 +138,11 @@ info.onAdd = function (map) {
 
 // update info box
 info.update = function (props) {
-  this._div.innerHTML = '<h4>Dental shortage score:</h4>' + (props ?
-    + props.Wscore + '</b><br />'
-    + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE) + '</b><br />'
-    + '# of HSPAs: ' + props.HSPACount
-    : 'Hover over a county');
+  this._div.innerHTML = '<h4>Dental shortage score: </h4>' + '<h2>'
+    + (props ? + props.Wscore + '</h2><br/><h3></h3>'
+    + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
+    + '<br/># of HSPAs: ' + props.HSPACount + '<br/>'
+    : '<h4>Hover over a county</h4>');
 };
 
 // function to join counties and csv
@@ -179,6 +179,7 @@ var map = L.map('map', {
   container: 'map',
   center: mapCenter (),
   zoom: mapZoom (),
+  zoomControl: false,
   gestureHandling: true
 });
 
@@ -201,8 +202,8 @@ alaskaWatcher.enterViewport(function () {
 });
 
 westWatcher.enterViewport(function () {
-  // changes the scale and zoom to western US
-  map.flyTo(new L.LatLng(42.9,-116.2), 5, {animate: true});
+  // changes the scale and zoom to WV
+  map.flyTo(new L.LatLng(38.4,-80.9), 6, {animate: true});
 });
 
 fullMapWatcher.enterViewport(function () {

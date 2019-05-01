@@ -1,7 +1,5 @@
 /* Javascript by Geri, Will, and Matt 2019 */
 
-// explanations in legends
-
 // debounce to increase speeds
 function debounce(func, wait, immediate) {
   var timeout;
@@ -44,35 +42,6 @@ var introWatcher = scrollMonitor.create($('#intro'));
 var alaskaWatcher = scrollMonitor.create($('#alaska'));
 var westWatcher = scrollMonitor.create($('#wv'));
 var fullMapWatcher = scrollMonitor.create($('#full-extent'));
-
-//Map Style for Poverty and Healthcare Coverage Layers
-//Section for Poverty Layer
-//assign state outline style
-  var stateStylePoverty = {
-    'weight': 2,
-    'opacity': 1,
-    'color': '#9D828C',
-    'fillOpacity': 0	  
-  };
- 
-  //get colors for poverty layer
-  function getColor2(e) {
-	  return d > 28 ? '#993404' :
-           d > 20 ? '#d95f0e' :
-           d > 14 ? '#fe9929' :
-           d > 8 ? '#fed98e' :
-           d > 0 ? '#ffffd4' :
-                    '#ffffff' ;
-  };
-function choroplethPoverty(feature) {
-  return {
-    fillColor: getColor2(feature.properties.Percent_below_poverty_level),
-    weight: 0.5,
-    opacity: 0.3,
-    color: '#fbb4b9',
-    fillOpacity: 0.7
-  };
-};
 
 // get colors for choropleth
 function getColor(d) {
@@ -182,8 +151,8 @@ info.onAdd = function (map) {
 info.update = function (props) {
   this._div.innerHTML =  '<h2>' + (props ? + props.Wscore
     + '</h2><h4>Dental shortage score: </h4><br/><h3></h3>'
-    + '<h4>Poverty % :</h4>' + props.Percent_be + '</h2><br/><h3></h3>'
-    + '<h4>Medicaid Reliance % :</h4>' + props.Percent_wi + '</h2><br/><h3></h3>'
+    + 'Percent below poverty line: ' + props.Percent_be + '<br/>'
+    + 'Percent on Medicaid: ' + props.Percent_wi + '<br/>'
     + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
     + '<br/>' + props.HSPACount + ' ' + hspaNum(props) + '<br/>'
     : '<h4>Hover over a county for details</h4>');
@@ -231,8 +200,6 @@ fullMapWatcher.enterViewport(function () {
 
 // use d3.queue to parallelize asynchronous data loading
 d3.queue()
-  // load pphc data
-  .defer(d3.json, "data/pphc.geojson")
   // load county data
   .defer(d3.json, "data/CountyHSPA.geojson")
   // load state outlines
@@ -240,15 +207,7 @@ d3.queue()
   .await(callback);
 
 // add callback function
-function callback(error, pphcData, counties, stateOutlines){
-
-  // psuedo-global variables
-  var attrArray = ["Wscore", "Percent_below_poverty_level", "Percent_with_public_health_coverage"];
-
-  // define attributes
-  var score = attrArray[0];
-  var poverty = attrArray[1];
-  var medicaid = attrArray[2];
+function callback(error, counties, stateOutlines){
 
   // turn off scrollwheel zoom
   map.scrollWheelZoom.disable();
@@ -271,6 +230,14 @@ function callback(error, pphcData, counties, stateOutlines){
   window.addEventListener("scroll", debounceFire ());
 };
 
+// create popups
+function createPopup(layer) {
+  // add formatted attribute to panel content string
+  var popupContent = "Help"
+
+  layer.bindPopup(popupContent);
+}
+
 // create legend
 var legend = L.control({position: 'bottomleft'});
 
@@ -278,8 +245,7 @@ legend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'info legend'),
   scores = [0, 1, 70, 250, 575, 1200],
   labels = [];
-  div.innerHTML = '<h4>Dental shortage score</h4>'
-                  + '<button class="btn btn-success btn-md">?</button>'
+  div.innerHTML = '<h4>Dental shortage score <sup><a href="#" id="help">?</a></sup></h4>'
 
   // generate labels and squares for each interval
   for (var i = 0; i < scores.length; i++) {
@@ -293,3 +259,8 @@ legend.onAdd = function(map) {
 
   return div;
 };
+
+
+  var helpLink = document.getElementById('help');
+  console.log(helpLink);
+

@@ -42,7 +42,7 @@ h3 {
 	background: rgba(255,255,255,0.8);
 	box-shadow: 0 0 15px rgba(0,0,0,0.2);
 	border-radius: 5px;
-	width: 220px;
+	width: 250px;
 	clear: both;
 }
 
@@ -67,7 +67,7 @@ h3 {
 .legend {
 	line-height: 18px;
 	color: #555;
-	width: 185px;
+	width: 169px;
 	font-size: 12px;
 	bottom: 10px;
 }
@@ -212,10 +212,10 @@ section h2{
 	text-align: center;
 }
 
-.help-btn {
-	right: 0px;
-	top: 0px;
-	padding-left: 3px;
-	position: absolute;
-	color: #696969;
+#help {
+	color: #000;
+}
+
+#help:hover {
+	color: #969696;
 }

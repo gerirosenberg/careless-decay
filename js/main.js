@@ -153,8 +153,8 @@ info.update = function (props) {
   this._div.innerHTML =  '<h2>' + (props ? + props.Wscore
     + '</h2><h4>Dental shortage score: </h4><br/><h3></h3>'
     + '<h4>' + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE) + '</h4><br/>'
-    + 'Percent below poverty line: ' + props.Percent_be + '<br/>'
-    + 'Percent on Medicaid: ' + props.Percent_wi + '<br/>'
+    + 'Population below poverty line: ' + props.Percent_be + '%<br/>'
+    + 'Popoulation on Medicaid: ' + props.Percent_wi + '%<br/>'
     + hpsaScore(props)
     : '<h4>Hover over a county for details</h4>');
 };

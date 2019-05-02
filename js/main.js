@@ -169,6 +169,12 @@ var map = L.map('map', {
   gestureHandling: true
 });
 
+// fit map to continental US
+map.fitBounds([
+  [-124.848974, 24.396308],
+  [-66.885444, 49.384358]
+]);
+
 // add OSM base tilelayer
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',

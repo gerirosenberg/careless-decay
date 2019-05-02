@@ -125,17 +125,18 @@ function titleCase(string) {
   return splitString.join(' ');
 };
 
-// make HPSA single or plural
-function hpsaNum (props) {
-  var single = 'HPSA'
-  var plural = 'HPSAs'
-  if (props.HPSACount == 1) {
-    return single;
+// change null HPSA score to none if there are no HPSAs
+function hpsaScore (props) {
+  if (isNaN(props.HPSAScore)) {
+    return "No HPSAs";
+  }
+  if (props.HPSACounty == 1) {
+    return "1 HPSA with score" + props.HPSAScore;
   }
   else {
-    return plural;
+    return props.HPSACount + " HPSAs with average score " + props.HPSAScore;
   }
-}
+};
 
 // make info box
 var info = L.control();
@@ -151,10 +152,10 @@ info.onAdd = function (map) {
 info.update = function (props) {
   this._div.innerHTML =  '<h2>' + (props ? + props.Wscore
     + '</h2><h4>Dental shortage score: </h4><br/><h3></h3>'
+    + '<h4>' + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE) + '</h4><br/>'
     + 'Percent below poverty line: ' + props.Percent_be + '<br/>'
     + 'Percent on Medicaid: ' + props.Percent_wi + '<br/>'
-    + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
-    + '<br/>' + props.HPSACount + ' ' + hpsaNum(props) + '<br/>'
+    + hpsaScore(props)
     : '<h4>Hover over a county for details</h4>');
 };
 
@@ -165,15 +166,8 @@ var map = L.map('map', {
   zoom: mapZoom (),
   maxBounds: bounds,
   zoomControl: false,
-	//layers: [poverty, dental]
   gestureHandling: true
 });
-
-// fit map to continental US
-map.fitBounds([
-  [-124.848974, 24.396308],
-  [-66.885444, 49.384358]
-]);
 
 // add OSM base tilelayer
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {
@@ -186,7 +180,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/
 
 introWatcher.enterViewport(function () {
   // changes the scale and zoom to continental US
-  map.flyTo(new L.LatLng(37.8, -96), mapZoom (), {animate: true});
+  map.flyTo(new L.LatLng(37.8,-96), mapZoom(), {animate: true});
 });
 
 alaskaWatcher.enterViewport(function () {
@@ -201,7 +195,7 @@ westWatcher.enterViewport(function () {
 
 fullMapWatcher.enterViewport(function () {
   // changes the scale and zoom to continental US
-  map.flyTo(new L.LatLng(37.8, -96), mapZoom (), {animate: true});
+  map.flyTo(new L.LatLng(37.8,-96), mapZoom(), {animate: true});
 });
 
 // use d3.queue to parallelize asynchronous data loading
@@ -229,6 +223,7 @@ function callback(error, counties, stateOutlines){
 
   L.geoJson(stateOutlines, {style: stateStyle, interactive: false}).addTo(map);
 
+  // add infobox and legend to map
   info.addTo(map);
   legend.addTo(map);
 
@@ -239,12 +234,13 @@ function callback(error, counties, stateOutlines){
 // create legend
 var legend = L.control({position: 'bottomleft'});
 
+// fill in legend
 legend.onAdd = function() {
   var div = L.DomUtil.create('div', 'info legend'),
   scores = [0, 1, 70, 250, 575, 1200],
   labels = ['0  (No shortage)', '1 - 70', '70 - 250', '250 - 575', '575 - 1000', '1200+  (Worst access)'];
   div.innerHTML = '<h4>Dental shortage score'
-                + '<button type="button" class="btn-help" data-toggle="tooltip" data-placement="top" title="Explain things here">?</button></h4>'
+                + '<button type="button" class="btn-help" data-toggle="tooltip" data-placement="top" title="Residents of counties with higher dental shortage scores live within the worst dental deserts and have the worst access to dental health care. Residents of counties with lower dental shortage scores have the most access to dental health care. Counties with scores of 0 have no HPSAs and no shortages.">?</button></h4>'
 
   // generate labels and squares for each interval
   for (var i = 0; i < scores.length; i++) {
@@ -253,6 +249,7 @@ legend.onAdd = function() {
       labels[i] + '<br>';
   }
 
+  // get tooltips working
   setTimeout(function() {
       $('[data-toggle="tooltip"]').tooltip();
   }, 500);

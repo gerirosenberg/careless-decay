@@ -125,11 +125,11 @@ function titleCase(string) {
   return splitString.join(' ');
 };
 
-// make HSPA single or plural
-function hspaNum (props) {
-  var single = 'HSPA'
-  var plural = 'HSPAs'
-  if (props.HSPACount == 1) {
+// make HPSA single or plural
+function hpsaNum (props) {
+  var single = 'HPSA'
+  var plural = 'HPSAs'
+  if (props.HPSACount == 1) {
     return single;
   }
   else {
@@ -154,7 +154,7 @@ info.update = function (props) {
     + 'Percent below poverty line: ' + props.Percent_be + '<br/>'
     + 'Percent on Medicaid: ' + props.Percent_wi + '<br/>'
     + titleCase(props.NAME) + ' County, '+ titleCase(props.STATE)
-    + '<br/>' + props.HSPACount + ' ' + hspaNum(props) + '<br/>'
+    + '<br/>' + props.HPSACount + ' ' + hpsaNum(props) + '<br/>'
     : '<h4>Hover over a county for details</h4>');
 };
 
@@ -201,7 +201,7 @@ fullMapWatcher.enterViewport(function () {
 // use d3.queue to parallelize asynchronous data loading
 d3.queue()
   // load county data
-  .defer(d3.json, "data/CountyHSPA.geojson")
+  .defer(d3.json, "data/CountyHPSA.geojson")
   // load state outlines
   .defer(d3.json, "data/states.geojson")
   .await(callback);

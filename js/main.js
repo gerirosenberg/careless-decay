@@ -128,7 +128,7 @@ function titleCase(string) {
 // make HSPA single or plural
 function hspaNum (props) {
   var single = 'HSPA'
-  var plural = 'HSPAs' 
+  var plural = 'HSPAs'
   if (props.HSPACount == 1) {
     return single;
   }
@@ -245,7 +245,7 @@ legend.onAdd = function(map) {
   var div = L.DomUtil.create('div', 'info legend'),
   scores = [0, 1, 70, 250, 575, 1200],
   labels = [];
-  div.innerHTML = '<h4>Dental shortage score <sup><a href="#" id="help">?</a></sup></h4>'
+  div.innerHTML = '<h4>Dental shortage score <a href="#" class="btn btn-primary btn-sm" rel="popover" data-boundary="viewport" data-content="I need a definition" data-original-title="A Title">Help</a></h4>'
 
   // generate labels and squares for each interval
   for (var i = 0; i < scores.length; i++) {
@@ -258,9 +258,12 @@ legend.onAdd = function(map) {
                 + '<div id="worst">(Worst access)</div>'
 
   return div;
+  $("a[rel=popover]").popover()
+  .click(function(e) {
+          e.preventDefault();
+       });
 };
 
 
   var helpLink = document.getElementById('help');
   console.log(helpLink);
-

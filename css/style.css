@@ -219,3 +219,7 @@ section h2{
 #help:hover {
 	color: #969696;
 }
+
+.btn {
+  color: white;
+}

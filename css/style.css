@@ -229,6 +229,10 @@ section h2{
 	max-width: 250px;
 }
 
+#help {
+	text-decoration: none;
+}
+
 #help:hover {
 	color: #969696;
 }

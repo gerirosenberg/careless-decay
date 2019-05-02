@@ -230,40 +230,26 @@ function callback(error, counties, stateOutlines){
   window.addEventListener("scroll", debounceFire ());
 };
 
-// create popups
-function createPopup(layer) {
-  // add formatted attribute to panel content string
-  var popupContent = "Help"
-
-  layer.bindPopup(popupContent);
-}
-
 // create legend
 var legend = L.control({position: 'bottomleft'});
 
-legend.onAdd = function(map) {
+legend.onAdd = function() {
   var div = L.DomUtil.create('div', 'info legend'),
   scores = [0, 1, 70, 250, 575, 1200],
-  labels = [];
-  div.innerHTML = '<h4>Dental shortage score <a href="#" class="btn btn-primary btn-sm" rel="popover" data-boundary="viewport" data-content="I need a definition" data-original-title="A Title">Help</a></h4>'
+  labels = ['0  (No shortage)', '1 - 70', '70 - 250', '250 - 575', '575 - 1000', '1200+  (Worst access)'];
+  div.innerHTML = '<h4>Dental shortage score'
+                + '<button type="button" class="btn-help" data-toggle="tooltip" data-placement="top" title="Explain things here">?</button></h4>'
 
   // generate labels and squares for each interval
   for (var i = 0; i < scores.length; i++) {
     div.innerHTML +=
       '<i style="background:' + getColor(scores[i] + 1) + '"></i> ' +
-      scores[i] + (scores[i + 1] ? '&ndash;' + scores[i + 1] + '<br>' : '+');
+      labels[i] + '<br>';
   }
 
-  div.innerHTML += '<div id="best">(Best access)</div>'
-                + '<div id="worst">(Worst access)</div>'
+  setTimeout(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+  }, 500);
 
   return div;
-  $("a[rel=popover]").popover()
-  .click(function(e) {
-          e.preventDefault();
-       });
 };
-
-
-  var helpLink = document.getElementById('help');
-  console.log(helpLink);

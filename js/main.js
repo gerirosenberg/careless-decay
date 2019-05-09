@@ -165,9 +165,11 @@ var map = L.map('map', {
   center: mapCenter (),
   zoom: mapZoom (),
   maxBounds: bounds,
-  zoomControl: false,
   gestureHandling: true
 });
+
+// turn off scroll wheel zoom
+map.scrollWheelZoom.disable()
 
 // add OSM base tilelayer
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHNteXRoMiIsImEiOiJjaXNmNGV0bGcwMG56MnludnhyN3Y5OHN4In0.xsZgj8hsNPzjb91F31-rYA', {

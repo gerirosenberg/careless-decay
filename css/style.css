@@ -14,6 +14,11 @@ a {
 	color: white;
 }
 
+a:hover {
+	text-decoration: none;
+	color: white;
+}
+
 ul, li {
 	list-style-type: decimal;
     list-style-position: outside;
